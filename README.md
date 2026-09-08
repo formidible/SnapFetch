@@ -13,12 +13,28 @@ Snapfetch is a fast, lightweight system information fetcher written in Rust. It 
 
 ## Installation
 
-You need Rust and Cargo installed.
-
 ```sh
 # From a checkout of this repository:
 ./installer.sh
 ```
+
+The installer is safe to run from any working directory. It fetches the locked
+Rust dependencies, builds a release binary, and installs it system-wide in
+`/usr/local/bin` when possible. Without permission for that directory it uses
+`${XDG_BIN_HOME:-~/.local/bin}` instead. If Cargo is missing, it automatically
+installs Rust with Rustup when `curl` or `wget` is available.
+
+Useful installation options:
+
+```sh
+./installer.sh --system             # force /usr/local/bin
+./installer.sh --user               # install for the current user
+./installer.sh --prefix /opt/tools  # install to /opt/tools/bin
+./installer.sh --uninstall          # remove from the selected bin directory
+```
+
+If the chosen user directory is not already on `PATH`, the installer prints
+the exact export command to add to your shell profile.
 
 Alternatively, build and run it without installing:
 
@@ -56,7 +72,7 @@ cargo run
 cargo check
 cargo test
 
-# Install to ~/.local/bin (or set PREFIX=/some/path)
+# Install with the same behavior as above
 ./installer.sh
 ```
 
